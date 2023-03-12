@@ -1,7 +1,7 @@
-import type { GetServerSideProps } from 'next'
-import React, { useState } from 'react'
-import type { Message } from '../types/message'
-import { getLoggedUserId } from '../utils/getLoggedUserId'
+'use client'
+import type { FormEvent } from 'react'
+import { useState } from 'react'
+import type { Message } from '../../types/message'
 import useSWR from 'swr'
 
 type Props = {
@@ -9,13 +9,8 @@ type Props = {
   messages: Message[],
   conversation: string
 }
-export const getServerSideProps: GetServerSideProps = async ({ params: { conversation } }) => {
-  const user = getLoggedUserId()
-  const messages: Message[] = await fetch(`http://localhost:3005/messages/${conversation}`).then(res => res.json())
-  return { props: { messages, user, conversation } }
-}
 
-const ConversationPage = ({ messages: initialMessages, user, conversation }:Props) => {
+const ConversationClientPage = ({ messages: initialMessages, user, conversation }:Props) => {
   const [message, setMessage] = useState<string>('')
   // eslint-disable-next-line no-undef
   const fetcher = (url:RequestInfo | URL, options:RequestInit) => fetch(url, options).then(res => res.json())
@@ -24,7 +19,7 @@ const ConversationPage = ({ messages: initialMessages, user, conversation }:Prop
     refreshInterval: 5000,
     fallbackData: initialMessages
   })
-  async function handleSubmit (event:React.FormEvent) {
+  async function handleSubmit (event:FormEvent) {
     // event.preventDefault()
     await fetch(`http://localhost:3005/messages/${conversation}`, {
       method: 'POST',
@@ -67,4 +62,4 @@ const ConversationPage = ({ messages: initialMessages, user, conversation }:Prop
   )
 }
 
-export default ConversationPage
+export default ConversationClientPage

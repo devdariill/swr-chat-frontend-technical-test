@@ -2,17 +2,18 @@ import Link from 'next/link'
 import { Conversation } from '../types/conversation'
 import { getLoggedUserId } from '../utils/getLoggedUserId'
 
-type Props = {
-  user:number
-  conversations: Conversation[]
-}
+// type Props = {
+//   user:number
+//   conversations: Conversation[]
+// }
 
-export const getServerSideProps = async () => {
+const getData = async () => {
   const user = getLoggedUserId()
   const conversations: Conversation[] = await fetch(`http://localhost:3005/conversations/${user}`).then(res => res.json())
-  return { props: { conversations, user } }
+  return { conversations, user }
 }
-const Home = ({ conversations, user }:Props) => {
+const Home = async () => {
+  const { user, conversations } = await getData()
   console.log(conversations)
   return (
     <main>
