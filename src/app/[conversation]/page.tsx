@@ -1,21 +1,16 @@
 import type React from 'react'
-import type { Message } from '../../types/message'
-import { getLoggedUserId } from '../../utils/getLoggedUserId'
+import api from '../../api'
 import ConversationClientPage from './client'
 
 type Props = {
  params:{
-    conversation: string
+    conversation: number
  }
-}
-const getConversations = async (conversation:any) => {
-  const user = getLoggedUserId()
-  const messages: Message[] = await fetch(`http://localhost:3005/messages/${conversation}`).then(res => res.json())
-  return { messages, user }
 }
 
 const ConversationPage = async ({ params: { conversation } }:Props) => {
-  const { messages, user } = await getConversations(conversation)
+  const messages = await api.meesages.list(conversation)
+  const user = await api.user.fetch()
   return (
     <ConversationClientPage messages={messages} user={user} conversation={conversation} />
   )

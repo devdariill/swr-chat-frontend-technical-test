@@ -7,7 +7,7 @@ import useSWR from 'swr'
 type Props = {
   user:number
   messages: Message[],
-  conversation: string
+  conversation: number
 }
 
 const ConversationClientPage = ({ messages: initialMessages, user, conversation }:Props) => {
