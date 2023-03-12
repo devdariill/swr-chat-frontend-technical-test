@@ -1,19 +1,15 @@
 import Link from 'next/link'
-import { Conversation } from '../types/conversation'
-import { getLoggedUserId } from '../utils/getLoggedUserId'
+import api from '../api'
 
 // type Props = {
 //   user:number
 //   conversations: Conversation[]
 // }
 
-const getData = async () => {
-  const user = getLoggedUserId()
-  const conversations: Conversation[] = await fetch(`http://localhost:3005/conversations/${user}`).then(res => res.json())
-  return { conversations, user }
-}
 const Home = async () => {
-  const { user, conversations } = await getData()
+  const user = await api.user.fetch()
+  const conversations = await api.conversation.list(user)
+  // const { user, conversations } = await getData()
   console.log(conversations)
   return (
     <main>
