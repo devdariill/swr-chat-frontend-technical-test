@@ -5,7 +5,7 @@ import '../styles/globals.css'
 // Default way to get a logged user
 export const loggedUserId = getLoggedUserId()
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp ({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />
 }
 
