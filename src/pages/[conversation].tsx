@@ -17,7 +17,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params: { convers
 
 const ConversationPage = ({ messages: initialMessages, user, conversation }:Props) => {
   const [message, setMessage] = useState<string>('')
-  const fetcher = (...args) => fetch(...args).then(res => res.json())
+  // eslint-disable-next-line no-undef
+  const fetcher = (url:RequestInfo | URL, options:RequestInit) => fetch(url, options).then(res => res.json())
+  // const fetcher = (...args) => fetch(...args).then(res => res.json())
   const { data: messages } = useSWR(`http://localhost:3005/messages/${conversation}`, fetcher, {
     refreshInterval: 5000,
     fallbackData: initialMessages
